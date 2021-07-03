@@ -9,13 +9,21 @@
     </div>
 
     <!-- 모달창 -->
-   <Modal @closeModal="모달창열렸니 = false" :원룸들="원룸들" :누른거="누른거" :모달창열렸니="모달창열렸니"/>
+    <transition name="fade">
+     <Modal @closeModal="모달창열렸니 = false" :원룸들="원룸들" :누른거="누른거" :모달창열렸니="모달창열렸니"/>
+    </transition>
 
     <div class="menu">
       <a v-for="(menu,i) in menus" :key="i">{{menu}}</a>
     </div>
 
-    <Discount v-bind="오브젝트" />
+    <Discount v-bind="오브젝트"  v-if="showDiscount == true" :discount="discount"/>
+
+    <button @click="priceSortAsc">가격순 오름차순 정렬</button>
+    <button @click="priceSortDesc">가격순 내림차순 정렬</button>
+    <button @click="titleSortAsc">가나다순 정렬</button>
+    <button @click="sortback">되돌리기</button>
+    
 
     <img alt="Vue logo" src="./assets/logo.png">
 
@@ -72,9 +80,12 @@ export default {
       모달창열렸니 : false,
       apple: apple,
       apple2: apple2,
+      원룸들오리지널 : [...data],
       원룸들: data,
       누른거: 0,
-      오브젝트: {name: 'kim', age : 20}
+      오브젝트: {name: 'kim', age : 20},
+      showDiscount: true,
+      discount: 30,
     }
   },
   methods : {
@@ -86,7 +97,38 @@ export default {
     },
     increase3() {
       this.count3 ++;
-    }
+    },
+    // 오름차순 정렬
+    priceSortAsc() {
+      this.원룸들.sort(function(a,b) {
+        return a.price - b.price;
+      });
+    },
+    priceSortDesc() {
+      this.원룸들.sort(function(a,b) {
+        return b.price - a.price;
+      });
+    },
+    titleSortAsc() {
+      this.원룸들.sort(function(a,b) {
+        return a.title < b.title ? -1 : a.title > b.title ? 1 : 0;
+      });
+    },
+    sortback() {
+      this.원룸들 = [...this.원룸들오리지널];
+    },
+  },
+  created() {
+
+  },
+  mounted() {
+    // setTimeout(() => {
+    //   this.showDiscount = false;    
+    // }, 2000);
+
+    setInterval(() => {
+      this.discount--;
+    }, 1000);
   },
   components: {
     Discount : Discount,
@@ -141,4 +183,24 @@ div {
   border-radius: 5px;
 }
 
+/* transition */
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-leave-active {
+  transition: all 1s;
+}
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: all 1s;
+}
+.fade-enter-to {
+  opacity: 1;
+}
 </style>
