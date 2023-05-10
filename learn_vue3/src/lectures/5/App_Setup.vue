@@ -1,0 +1,26 @@
+<template>
+  <div>
+    <p>
+      {{ count }}
+    </p>
+    <p>
+      {{ message }}
+    </p>
+    <button @click="count++"></button>
+  </div>
+</template>
+
+<script>
+export default {
+  setup() {
+    const count = ref(0)
+    const message = ref('Hello Vue3')
+    const increment = () => {
+      count.value++
+    }
+    return { count, message, increment }
+  }
+}
+</script>
+
+<style lang="scss" scoped></style>
