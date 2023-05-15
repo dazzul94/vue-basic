@@ -1,61 +1,39 @@
 <template>
 	<div class="card">
-		<div class="card-body">
-			<!-- type : news, notice -->
-			<span class="badge bg-secondary">{{ typeName }}</span>
-			<h5 class="card-title red mt-2">{{ title }}</h5>
-			<p class="card-text">
-				{{ contents }}
-			</p>
-			<a @click="toggleLike" href="#" class="btn" :class="isLikeClass"
-				>좋아요</a
+		<div v-if="$slots.header" class="card-header">
+			<slot :header-message="headerMessage" name="header">#header</slot>
+		</div>
+		<div v-if="$slots.default" class="card-body">
+			<slot :child-message="childMessage" :hello-message="helloMessage"
+				>#body</slot
 			>
+		</div>
+		<div v-if="hasFooter" class="card-footer text-body-secondary">
+			<slot :footer-message="footerMessage" name="footer">#footer</slot>
 		</div>
 	</div>
 </template>
 
 <script>
 import { computed } from 'vue';
+import { ref } from 'vue';
 
 export default {
-	props: {
-		type: {
-			type: String,
-			default: 'news',
-			validator: value => {
-				return ['news', 'notice'].includes(value);
-			},
-		},
-		title: {
-			type: String,
-			required: true,
-		},
-		contents: {
-			type: String,
-			// required: true,
-		},
-		isLike: {
-			type: Boolean,
-			default: false,
-		},
-		obj: {
-			type: Object,
-			default: () => {},
-		},
-	},
-	emits: ['toggleLike'],
-	setup(props, context) {
-		const isLikeClass = computed(() =>
-			props.isLike ? 'btn-danger' : 'btn-outline-danger',
-		);
-		const typeName = computed(() =>
-			props.type === 'news' ? '뉴스' : '공지사항',
-		);
-		const toggleLike = () => {
-			// props.isLike = !props.isLike;
-			context.emit('toggleLike');
+	setup(props, { slots }) {
+		const childMessage = ref('hello');
+		const helloMessage = ref('hellow');
+		const headerMessage = ref('header message');
+		const footerMessage = ref('footer message');
+		const hasFooter = computed(() => !slots.footer);
+		return {
+			childMessage,
+			helloMessage,
+			headerMessage,
+			footerMessage,
+			hasFooter,
 		};
-		return { isLikeClass, typeName, toggleLike };
 	},
 };
 </script>
+
+<style lang="scss" scoped></style>
