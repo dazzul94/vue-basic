@@ -1,10 +1,8 @@
 <template>
-	<div>
-		<label>
-			{{ label }}
-			<input type="text" v-model="value" />
-		</label>
-	</div>
+	<label class="form_label" id="child_id">
+		{{ label }}
+	</label>
+	<input type="text" v-model="value" v-bind="$attrs" class="form_control" />
 </template>
 
 <script>
