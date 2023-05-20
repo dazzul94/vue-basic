@@ -1,14 +1,14 @@
 <template>
-	<div class="container py-4">
-		<LifeCycleHook></LifeCycleHook>
-	</div>
+	<main class="container py-4">
+		<TemplateRef></TemplateRef>
+	</main>
 </template>
 
 <script>
-import LifeCycleHook from './LifeCycleHook.vue';
+import TemplateRef from './TemplateRef.vue';
 export default {
 	components: {
-		LifeCycleHook,
+		TemplateRef,
 	},
 	setup() {
 		return {};
