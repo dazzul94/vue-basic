@@ -1,19 +1,10 @@
 <template>
-	<main class="container py-4">
-		<TemplateRef></TemplateRef>
-	</main>
+	<main><DynamicComponent></DynamicComponent></main>
 </template>
 
-<script>
-import TemplateRef from './TemplateRef.vue';
-export default {
-	components: {
-		TemplateRef,
-	},
-	setup() {
-		return {};
-	},
-};
+<script setup>
+import ScriptSetup from './ScriptSetup.vue';
+import DynamicComponent from './DynamicComponent.vue';
 </script>
 
 <style lang="scss" scoped></style>
