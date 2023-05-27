@@ -30,20 +30,19 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const posts = ref([]);
 
-const fetchPosts = () => {
-	posts.value = getPosts();
+const fetchPosts = async () => {
+	try {
+		({ data: posts.value } = await getPosts());
+	} catch (error) {
+		console.error(error);
+	}
 };
 fetchPosts();
 
 const goPage = id => {
-	// router.push(`/posts/${id}`);
 	router.push({
 		name: 'PostDetail',
 		params: { id },
-		// query: {
-		// 	searchText: 'hello',
-		// },
-		// hash: '#world!',
 	});
 };
 </script>
