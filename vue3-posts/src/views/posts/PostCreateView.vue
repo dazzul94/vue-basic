@@ -52,9 +52,28 @@ const goListPage = () => {
 	});
 };
 
+const toStringByFormatting = (source, delimiter = '-') => {
+	const year = source.getFullYear();
+	const month = leftPad(source.getMonth() + 1);
+	const day = leftPad(source.getDate());
+
+	return [year, month, day].join(delimiter);
+};
+
+function leftPad(value) {
+	if (value >= 10) {
+		return value;
+	}
+
+	return `0${value}`;
+}
+
 const save = async () => {
 	try {
-		await createPost({ ...form.value, createdAt: Date.now() });
+		await createPost({
+			...form.value,
+			createdAt: toStringByFormatting(new Date()),
+		});
 		goListPage();
 	} catch (error) {
 		console.error(error);
