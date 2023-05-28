@@ -40,11 +40,7 @@ const routes = [
 		path: '/posts/:id',
 		name: 'PostDetail',
 		component: PostDetailView,
-		// props: true, // id 값이 props로 넘어감
-		// props: { word: 'hello'}
-		props: route => ({
-			id: parseInt(route.params.id),
-		}),
+		props: true, // id 값이 props로 넘어감
 	},
 	{
 		path: '/posts/:id/edit',
