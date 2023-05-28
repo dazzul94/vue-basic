@@ -12,6 +12,7 @@
 					:content="item.content"
 					:created-at="item.createdAt"
 					@click="goPage(item.id)"
+					@modal="openModal(item)"
 				></PostItem>
 			</template>
 		</AppGrid>
@@ -20,6 +21,36 @@
 			:page-count="pageCount"
 			@page="page => (params._page = page)"
 		/>
+		<Teleport to="#modal">
+			<PostModal
+				v-model="show"
+				:title="modalTitle"
+				:content="modalContent"
+				:created-at="modalCreatedAt"
+			>
+				<template #default>
+					<div class="row">
+						<div class="col-3">제목</div>
+						<div class="col-9">{{ modalTitle }}</div>
+						<div class="col-3">내용</div>
+						<div class="col-9">{{ modalContent }}</div>
+						<div class="col-3">등록일</div>
+						<div class="col-9">{{ modalCreatedAt }}</div>
+					</div>
+				</template>
+				<template #actions>
+					<button
+						type="button"
+						class="btn btn-secondary"
+						data-bs-dismiss="modal"
+						@click="closeModal"
+					>
+						Close
+					</button>
+				</template>
+			</PostModal>
+		</Teleport>
+
 		<template v-if="posts && posts.length">
 			<hr class="my-4" />
 			<AppCard>
@@ -40,6 +71,8 @@ import { computed } from 'vue';
 import AppPagination from '@/components/AppPagination.vue';
 import AppGrid from '@/components/AppGrid.vue';
 import PostFilter from '@/components/posts/PostFilter.vue';
+import AppModal from '@/components/AppModal.vue';
+import PostModal from '@/components/posts/PostModal.vue';
 
 const router = useRouter();
 const posts = ref([]);
@@ -74,6 +107,22 @@ const goPage = id => {
 		name: 'PostDetail',
 		params: { id },
 	});
+};
+
+// modal
+const show = ref(false);
+const modalTitle = ref('');
+const modalContent = ref('');
+const modalCreatedAt = ref('');
+
+const openModal = ({ title, content, createdAt }) => {
+	show.value = true;
+	modalTitle.value = title;
+	modalContent.value = content;
+	modalCreatedAt.value = createdAt;
+};
+const closeModal = () => {
+	show.value = false;
 };
 </script>
 
