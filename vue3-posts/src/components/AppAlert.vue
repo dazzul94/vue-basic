@@ -1,7 +1,9 @@
 <template>
-	<div v-if="show" class="app-alert alert" :class="styleComputed" role="alert">
-		{{ message }}
-	</div>
+	<Transition name="slide">
+		<div v-if="show" class="app-alert alert" :class="typeStyle" role="alert">
+			{{ message }}
+		</div>
+	</Transition>
 </template>
 
 <script setup>
@@ -22,7 +24,7 @@ const props = defineProps({
 		validator: value => ['success', 'error'].includes(value),
 	},
 });
-const styleComputed = computed(() =>
+const typeStyle = computed(() =>
 	props.type === 'error' ? 'alert-danger' : 'alert-primary',
 );
 </script>
@@ -32,5 +34,28 @@ const styleComputed = computed(() =>
 	position: fixed;
 	top: 10px;
 	right: 10px;
+}
+
+.slide-enter-from {
+	opacity: 0;
+	transform: translateY(-30px);
+}
+.slide-enter-active {
+	transition: all 0.5s ease;
+}
+.slide-enter-to {
+	opacity: 1;
+	transform: translateY(0px);
+}
+.slide-leave-from {
+	opacity: 1;
+	transform: translateY(0px);
+}
+.slide-leave-to {
+	opacity: 0;
+	transform: translateY(-30px);
+}
+.slide-leave-active {
+	transition: all 0.5s ease;
 }
 </style>
